@@ -5,53 +5,46 @@ on:
     types: [source-updated]
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Checkout mantang-develop
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.SOURCE_REPO_TOKEN }}
-
       - name: Checkout mantang source
         uses: actions/checkout@v4
         with:
           repository: mmantang/mantang
           token: ${{ secrets.SOURCE_REPO_TOKEN }}
-          path: source
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: source/package-lock.json
 
       - name: Install dependencies
         run: npm ci
-        working-directory: source
 
       - name: Build
         run: npm run build
-        working-directory: source
         env:
           VITE_NAVER_MAP_CLIENT_ID: ${{ secrets.VITE_NAVER_MAP_CLIENT_ID }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY }}
           VITE_OPINET_KEY: ${{ secrets.VITE_OPINET_KEY }}
 
-      - name: Update build files
-        run: |
-          rm -rf dist
-          cp -r source/dist .
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
 
-      - name: Commit and push
-        run: |
-          git config user.name "${{ github.event.client_payload.actor }}"
-          git config user.email "${{ github.event.client_payload.actor }}@users.noreply.github.com"
-          git add -f dist
-          git diff --staged --quiet || (git commit -m "chore: build $(date -u +'%Y-%m-%d %H:%M:%S UTC')" && git push)
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
