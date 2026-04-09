@@ -4,6 +4,9 @@ on:
   repository_dispatch:
     types: [source-updated]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,6 +14,8 @@ jobs:
     steps:
       - name: Checkout mantang-develop
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.SOURCE_REPO_TOKEN }}
 
       - name: Checkout mantang source
         uses: actions/checkout@v4
