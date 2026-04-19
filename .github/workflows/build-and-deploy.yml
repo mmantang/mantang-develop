@@ -41,6 +41,7 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY }}
           VITE_OPINET_KEY: ${{ secrets.VITE_OPINET_KEY }}
+          VITE_APP_URL: ${{ secrets.VITE_APP_URL }}
           VITE_BASE_PATH: /mantang-develop/
 
       - name: Upload Pages artifact
