@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
 
       - name: Install dependencies
@@ -42,6 +42,7 @@ jobs:
           VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY }}
           VITE_OPINET_KEY: ${{ secrets.VITE_OPINET_KEY }}
           VITE_APP_URL: ${{ secrets.VITE_APP_URL }}
+          VITE_KAKAO_MOBILITY_KEY: ${{ secrets.VITE_KAKAO_MOBILITY_KEY }}
           VITE_BASE_PATH: /mantang-develop/
 
       - name: Upload Pages artifact
