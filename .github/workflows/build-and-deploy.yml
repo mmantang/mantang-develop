@@ -34,7 +34,7 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build -- --mode development
+        run: npm run build -- --mode staging
         env:
           VITE_NAVER_LOGIN_CLIENT_ID: ${{ secrets.VITE_NAVER_LOGIN_CLIENT_ID }}                                                                                                                      
           VITE_NAVER_MAP_CLIENT_ID: ${{ secrets.VITE_NAVER_MAP_CLIENT_ID }}
