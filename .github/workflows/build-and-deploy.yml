@@ -44,6 +44,7 @@ jobs:
           VITE_APP_URL: ${{ secrets.VITE_APP_URL }}
           VITE_KAKAO_MOBILITY_KEY: ${{ secrets.VITE_KAKAO_MOBILITY_KEY }}
           VITE_BASE_PATH: /mantang-develop/
+          VITE_KAKAO_CHANNEL_CHAT_URL: ${{ secrets.VITE_KAKAO_CHANNEL_CHAT_URL }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
